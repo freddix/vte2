@@ -1,11 +1,12 @@
 Summary:	VTE terminal widget library
 Name:		vte2
 Version:	0.28.2
-Release:	2
+Release:	3
 License:	LGPL
 Group:		X11/Libraries
 Source0:	http://ftp.gnome.org/pub/gnome/sources/vte/0.28/vte-%{version}.tar.xz
 # Source0-md5:	497f26e457308649e6ece32b3bb142ff
+Patch0:		b73782a28894e25ed146271f9d6c6775a6836199.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel
@@ -53,10 +54,12 @@ Basic VTE terminal.
 
 %prep
 %setup -qn vte-%{version}
+# revert buggy commit
+%patch0 -p1 -R
 
 # kill gnome common deps
 sed -i -e 's/GNOME_COMPILE_WARNINGS.*//g'	\
--i -e 's/GNOME_MAINTAINER_MODE_DEFINES//g'	\
+    -i -e 's/GNOME_MAINTAINER_MODE_DEFINES//g'	\
     -i -e 's/GNOME_COMMON_INIT//g'		\
     -i -e 's/GNOME_CXX_WARNINGS.*//g'		\
     -i -e 's/GNOME_DEBUG_CHECK//g' configure.in
@@ -85,7 +88,6 @@ cd ..
 	--disable-introspection		\
 	--disable-silent-rules		\
 	--disable-static		\
-	--with-default-emulation=rxvt	\
 	--with-html-dir=%{_gtkdocdir}
 %{__make}
 
