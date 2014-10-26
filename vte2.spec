@@ -1,7 +1,7 @@
 Summary:	VTE terminal widget library
 Name:		vte2
 Version:	0.28.2
-Release:	3
+Release:	4
 License:	LGPL
 Group:		X11/Libraries
 Source0:	http://ftp.gnome.org/pub/gnome/sources/vte/0.28/vte-%{version}.tar.xz
@@ -97,7 +97,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/{ca@valencia,en@shaw}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
 
 %find_lang vte-0.0
 
